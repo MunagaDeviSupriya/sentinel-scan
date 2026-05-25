@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCOGAN+ | Malware Detection System</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 36 36" fill="none">
+        <polygon points="18,2 34,10 34,26 18,34 2,26 2,10" stroke="#4f8ef7" stroke-width="2" fill="rgba(79,142,247,0.15)"/>
+        <circle cx="18" cy="18" r="5" fill="#4f8ef7"/>
+        <circle cx="18" cy="18" r="2" fill="#fff"/>
+      </svg>
+    </div>
+    <div>
+      <div class="brand-name">MCOGAN<span>+</span></div>
+      <div class="brand-tagline">Malware Detector</div>
+    </div>
+  </div>
+
+  <div class="nav-group-label">MAIN MENU</div>
+  <ul class="nav-list">
+    <li class="nav-item active" data-page="dashboard">
+      <span class="nav-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 11h7V2H2v9zm0 7h7v-5H2v5zm9 0h7v-9h-7v9zm0-16v5h7V2h-7z"/></svg></span>
+      <span class="nav-label">Dashboard</span>
+      <span class="nav-hint">Overview &amp; stats</span>
+    </li>
+    <li class="nav-item" data-page="analyze">
+      <span class="nav-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a7 7 0 100 14A7 7 0 009 2zm0 2a5 5 0 110 10A5 5 0 019 4zm6.32 10.9l2.39 2.38-1.42 1.42-2.38-2.39a8 8 0 001.41-1.41z"/></svg></span>
+      <span class="nav-label">Scan File</span>
+      <span class="nav-hint">Analyze a file</span>
+    </li>
+
+    <li class="nav-item" data-page="history">
+      <span class="nav-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm1 8.41V5H9v6l4.29 4.29 1.42-1.42L11 10.41z"/></svg></span>
+      <span class="nav-label">Scan History</span>
+      <span class="nav-hint">Past results</span>
+    </li>
+    <li class="nav-item" data-page="settings">
+      <span class="nav-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M8.33 2h3.34l.7 2.1a6 6 0 011.47.85l2.17-.7 1.67 2.9-1.64 1.48a6.06 6.06 0 010 1.74l1.64 1.48-1.67 2.9-2.17-.7a6 6 0 01-1.47.85l-.7 2.1H8.33l-.7-2.1a6 6 0 01-1.47-.85l-2.17.7-1.67-2.9 1.64-1.48a6.06 6.06 0 010-1.74L2.32 7.15l1.67-2.9 2.17.7A6 6 0 018.63 4.1L8.33 2zM10 7a3 3 0 100 6 3 3 0 000-6z"/></svg></span>
+      <span class="nav-label">Settings</span>
+      <span class="nav-hint">Configuration</span>
+    </li>
+  </ul>
+
+  <div class="sidebar-status">
+    <div class="status-row">
+      <span class="status-dot pulse"></span>
+      <span>Model Active</span>
+    </div>
+    <div class="status-ver">v2.4.1 Enhanced</div>
+  </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- Main -->
+<main class="main-content">
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <h1 class="topbar-title" id="page-title">Dashboard</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="threat-pill" id="threat-badge">
+        <span class="threat-dot"></span>
+        Threat Level: <strong id="threat-text">LOW</strong>
+      </div>
+      <div class="topbar-clock" id="live-time">00:00:00</div>
+    </div>
+  </header>
+
+  <!-- ═══ DASHBOARD ═══ -->
+  <div class="page active" id="page-dashboard">
+    <div class="page-header">
+      <h2 class="page-heading">System Dashboard</h2>
+      <p class="page-sub">Real-time overview of detection activity and model performance.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card blue">
+        <div class="stat-icon-box"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a7 7 0 100 14A7 7 0 009 2zm6.32 10.9l2.39 2.38-1.42 1.42-2.38-2.39A8 8 0 0015.32 12.9z"/></svg></div>
+        <div>
+          <div class="stat-num" data-target="9187">0</div>
+          <div class="stat-lbl">Files Scanned</div>
+          <div class="stat-chg up">↑ 12.4% this week</div>
+        </div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-icon-box"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2l8 3v5c0 5-4 8-8 9-4-1-8-4-8-9V5l8-3z"/></svg></div>
+        <div>
+          <div class="stat-num" data-target="3700">0</div>
+          <div class="stat-lbl">Threats Detected</div>
+          <div class="stat-chg neutral">40.3% detection rate</div>
+        </div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-icon-box"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M16.7 5.3l-8 8-3.7-3.7-1.4 1.4 5.1 5.1 9.4-9.4z"/></svg></div>
+        <div>
+          <div class="stat-num" data-target="98" data-suffix=".85%">0</div>
+          <div class="stat-lbl">Model Accuracy</div>
+          <div class="stat-chg up">↑ 10 pts vs baseline</div>
+        </div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-icon-box"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 2a1 1 0 011 1v5l3 3-1.41 1.41L9 11.59V5a1 1 0 011-1z"/></svg></div>
+        <div>
+          <div class="stat-num" data-target="11">0</div>
+          <div class="stat-lbl">Malware Families</div>
+          <div class="stat-chg neutral">Full coverage</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-row two-col">
+      <div class="chart-box">
+        <div class="chart-hdr"><div class="chart-title">Detection Methods</div><div class="chart-sub">Usage distribution by classifier</div></div>
+        <div class="chart-wrap h200"><canvas id="methodsChart"></canvas></div>
+      </div>
+
+    </div>
+
+
+    <div class="table-box">
+      <div class="chart-hdr"><div class="chart-title">Recent Detections</div><div class="chart-sub">Latest scan results</div></div>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead><tr><th>File Hash</th><th>Family</th><th>Confidence</th><th>Method</th><th>Status</th><th>Time</th></tr></thead>
+          <tbody id="activity-rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SCAN / ANALYZE ═══ -->
+  <div class="page" id="page-analyze">
+    <div class="page-header">
+      <h2 class="page-heading">Scan a File</h2>
+      <p class="page-sub">Upload a PE executable or enter its properties to check for malware.</p>
+    </div>
+
+    <div class="analyze-layout">
+      <!-- Input panel -->
+      <div class="input-card">
+        <div class="step-bar">
+          <div class="step-item active"><div class="step-num">1</div><div class="step-lbl">Choose Input</div></div>
+          <div class="step-line"></div>
+          <div class="step-item"><div class="step-num">2</div><div class="step-lbl">Set Options</div></div>
+          <div class="step-line"></div>
+          <div class="step-item"><div class="step-num">3</div><div class="step-lbl">Run Scan</div></div>
+        </div>
+
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="upload">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1v9.59l3.29-3.3 1.42 1.42L8 14 3.29 8.71l1.42-1.42L8 10.59V1h2V1H8zM2 13h12v2H2v-2z"/></svg>
+            Upload File
+          </button>
+          <button class="tab-btn" data-tab="features">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h12v2H2V2zm0 4h8v2H2V6zm0 4h10v2H2v-2z"/></svg>
+            Enter Features
+          </button>
+          <button class="tab-btn" data-tab="hash">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2H2v4H0v2h2v4h2V8h2V6H4V2zm8 0h-2v4h-2v2h2v4h2V8h2V6h-2V2z"/></svg>
+            Hash Lookup
+          </button>
+        </div>
+
+        <!-- Upload tab -->
+        <div class="tab-panel active" id="tab-upload">
+          <div class="dropzone" id="dropzone">
+            <div class="drop-art">
+              <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="8" y="6" width="40" height="44" rx="5" stroke-dasharray="5 3.5"/>
+                <path d="M28 34V20M22 26l6-6 6 6"/>
+              </svg>
+            </div>
+            <div class="drop-title">Drag &amp; drop your file here</div>
+            <div class="drop-sub">Supports .exe, .dll, .sys, .bin — max 50 MB</div>
+            <button class="browse-btn" onclick="document.getElementById('file-input').click()">Browse Files</button>
+            <input type="file" id="file-input" accept=".exe,.dll,.sys,.bin" hidden>
+          </div>
+          <div class="file-preview hidden" id="file-info">
+            <div class="file-icon">📄</div>
+            <div class="file-meta">
+              <div class="file-nm" id="file-name">filename.exe</div>
+              <div class="file-sz" id="file-size">0 KB</div>
+            </div>
+            <button class="file-remove" id="remove-file" title="Remove">✕</button>
+          </div>
+        </div>
+
+        <!-- Features tab -->
+        <div class="tab-panel" id="tab-features">
+          <div class="info-note">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm1 10H7V7h2v4zm0-6H7V3h2v2z"/></svg>
+            Enter PE file properties if you don't have the actual file. These five features are fed directly to the XGBoost classifier.
+          </div>
+          <div class="feat-grid">
+            <div class="feat-grp">
+              <label class="feat-lbl">File Size <small>(bytes)</small></label>
+              <input type="number" class="feat-inp" id="feat-size" value="204800" min="0">
+            </div>
+            <div class="feat-grp">
+              <label class="feat-lbl">Entropy Score <small>(0–8)</small></label>
+              <input type="number" class="feat-inp" id="feat-entropy" min="0" max="8" step="0.01" value="6.72">
+              <div class="feat-hint">Higher = likely packed / encrypted</div>
+            </div>
+            <div class="feat-grp">
+              <label class="feat-lbl">Number of Sections</label>
+              <input type="number" class="feat-inp" id="feat-sections" value="5" min="1">
+            </div>
+            <div class="feat-grp">
+              <label class="feat-lbl">API Call Count</label>
+              <input type="number" class="feat-inp" id="feat-api" value="148" min="0">
+            </div>
+            <div class="feat-grp span2">
+              <label class="feat-lbl">Import Table Size</label>
+              <input type="number" class="feat-inp" id="feat-imports" value="32" min="0">
+            </div>
+          </div>
+        </div>
+
+        <!-- Hash tab -->
+        <div class="tab-panel" id="tab-hash">
+          <div class="info-note">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm1 10H7V7h2v4zm0-6H7V3h2v2z"/></svg>
+            Paste an MD5 or SHA256 hash to look up in threat databases.
+          </div>
+          <div class="feat-grp">
+            <label class="feat-lbl">File Hash</label>
+            <input type="text" class="feat-inp" id="hash-input" placeholder="Enter MD5 or SHA256 hash…">
+          </div>
+        </div>
+
+        <!-- Options -->
+        <div class="options-block">
+          <div class="options-hdr">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 4h12v2H2V4zm3 4h9v2H5V8zm2 4h7v2H7v-2z"/></svg>
+            Analysis Options
+          </div>
+          <div class="toggles-grid">
+            <label class="toggle-row">
+              <input type="checkbox" checked id="opt-cgan">
+              <span class="toggle-switch"></span>
+              <span class="toggle-info"><span class="toggle-nm">cGAN Augmentation</span><span class="toggle-desc">Improve detection using synthetic samples</span></span>
+            </label>
+
+            <label class="toggle-row">
+              <input type="checkbox" id="opt-multimodal">
+              <span class="toggle-switch"></span>
+              <span class="toggle-info"><span class="toggle-nm">Multi-modal Fusion</span><span class="toggle-desc">Combine multiple analysis methods</span></span>
+            </label>
+            <label class="toggle-row">
+              <input type="checkbox" id="opt-adversarial">
+              <span class="toggle-switch"></span>
+              <span class="toggle-info"><span class="toggle-nm">Adversarial Robustness</span><span class="toggle-desc">Test against evasion attacks</span></span>
+            </label>
+            <label class="toggle-row">
+              <input type="checkbox" checked id="opt-mitre">
+              <span class="toggle-switch"></span>
+              <span class="toggle-info"><span class="toggle-nm">MITRE ATT&amp;CK Mapping</span><span class="toggle-desc">Map to known attack techniques</span></span>
+            </label>
+            <label class="toggle-row">
+              <input type="checkbox" id="opt-latency">
+              <span class="toggle-switch"></span>
+              <span class="toggle-info"><span class="toggle-nm">Performance Benchmark</span><span class="toggle-desc">Measure inference speed</span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="classifier-row">
+          <label class="feat-lbl" style="margin:0">Classifier:</label>
+          <select class="feat-inp" id="classifier-select">
+            <option value="hybrid">Hybrid + MCOGAN (Recommended)</option>
+            <option value="cnn">CNN + MCOGAN</option>
+            <option value="cgan">cGAN Enhanced</option>
+            <option value="multimodal">Multi-modal Fusion</option>
+          </select>
+        </div>
+
+        <button class="scan-btn" id="analyze-btn">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a7 7 0 100 14A7 7 0 009 2zm6.32 10.9l2.39 2.38-1.42 1.42-2.38-2.39A8 8 0 0015.32 12.9z"/></svg>
+          Run Malware Scan
+        </button>
+      </div>
+
+      <!-- Results panel -->
+      <div class="results-card" id="results-panel">
+        <div class="results-empty" id="results-placeholder">
+          <div class="empty-art">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.2">
+              <circle cx="32" cy="32" r="26" stroke-dasharray="5 4"/>
+              <path d="M22 32h20M32 22v20"/>
+            </svg>
+          </div>
+          <div class="empty-title">Ready to Scan</div>
+          <div class="empty-sub">Switch to "Enter Features", fill in the PE properties, then click "Run Malware Scan"</div>
+        </div>
+
+        <div class="result-body hidden" id="result-content">
+          <!-- Verdict -->
+          <div class="verdict-banner" id="verdict-banner">
+            <div class="verdict-left">
+              <div class="verdict-emoji" id="verdict-icon-wrap">⚠️</div>
+              <div>
+                <div class="verdict-status" id="verdict-label">MALICIOUS</div>
+                <div class="verdict-family">Detected Family: <strong id="family-name">—</strong></div>
+              </div>
+            </div>
+            <div class="conf-ring-wrap">
+              <svg viewBox="0 0 80 80" class="conf-svg">
+                <circle cx="40" cy="40" r="32" stroke="#e5e7eb" stroke-width="8" fill="none"/>
+                <circle cx="40" cy="40" r="32" stroke="currentColor" stroke-width="8" fill="none"
+                        stroke-dasharray="201" id="conf-circle" stroke-linecap="round"
+                        transform="rotate(-90 40 40)"/>
+              </svg>
+              <div class="conf-label-inner">
+                <div class="conf-pct" id="conf-text">—%</div>
+                <div class="conf-word">Confidence</div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+          <!-- MITRE -->
+          <div class="res-section hidden" id="mitre-section">
+            <div class="res-section-title">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l7 3v4c0 4-3 7-7 8C5 15 2 12 2 8V4l6-3z"/></svg>
+              MITRE ATT&amp;CK Techniques
+            </div>
+            <div class="mitre-tags" id="mitre-techniques"></div>
+          </div>
+
+          <!-- Latency -->
+          <div class="res-section hidden" id="latency-section">
+            <div class="res-section-title">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm1 7.41V4H7v5l3.29 3.29 1.42-1.42L9 8.41z"/></svg>
+              Performance Benchmark
+            </div>
+            <div class="latency-grid" id="latency-grid"></div>
+          </div>
+
+          <!-- Actions -->
+          <div class="res-actions">
+            <button class="res-btn primary" onclick="exportReport()">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1v9.59l3.29-3.3 1.42 1.42L8 14 3.29 8.71l1.42-1.42L8 10.59V1h2V1H8zM2 13h12v2H2v-2z"/></svg>
+              Export Report
+            </button>
+            <button class="res-btn secondary" onclick="viewHistory()">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm1 8.41V4H7v6l4.29 4.29 1.42-1.42L9 9.41z"/></svg>
+              View History
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- ═══ HISTORY ═══ -->
+  <div class="page" id="page-history">
+    <div class="page-header">
+      <h2 class="page-heading">Scan History</h2>
+      <p class="page-sub">All past analyses stored locally on this device.</p>
+    </div>
+    <div class="history-toolbar">
+      <div class="search-wrap">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M7 1a6 6 0 100 12A6 6 0 007 1zm5.32 9.9l2.38 2.39-1.41 1.41-2.39-2.38A8 8 0 0112.32 10.9z"/></svg>
+        <input type="text" class="search-inp" placeholder="Search by hash or family…" id="history-search">
+      </div>
+      <select class="filter-sel" id="history-filter">
+        <option value="all">All Results</option>
+        <option value="malicious">Malicious Only</option>
+        <option value="benign">Benign Only</option>
+      </select>
+      <button class="danger-btn" onclick="clearHistory()">Clear All</button>
+    </div>
+    <div class="table-box">
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead><tr><th>File Hash</th><th>Family</th><th>Confidence</th><th>Method</th><th>Status</th><th>Date / Time</th></tr></thead>
+          <tbody id="history-list"><tr><td colspan="6" class="empty-cell">No scans yet. Run your first analysis from the Scan File page.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SETTINGS ═══ -->
+  <div class="page" id="page-settings">
+    <div class="page-header">
+      <h2 class="page-heading">Settings</h2>
+      <p class="page-sub">Configure model parameters and interface preferences.</p>
+    </div>
+    <div class="settings-stack">
+      <div class="settings-card">
+        <div class="settings-card-title">Model Configuration</div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-nm">Detection Threshold</div>
+            <div class="setting-desc">Minimum confidence to flag a file as malicious. Lower = more sensitive.</div>
+          </div>
+          <div class="setting-ctrl">
+            <input type="range" min="50" max="99" value="75" class="range-inp" id="threshold-slider">
+            <span class="range-val" id="threshold-val">75%</span>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-nm">Classifier Mode</div>
+            <div class="setting-desc">Which model variant to use. Hybrid+MCOGAN gives the highest accuracy.</div>
+          </div>
+          <select class="setting-sel" id="classifier-select-settings">
+            <option value="hybrid">Hybrid + MCOGAN (Best)</option>
+            <option value="cnn">CNN + MCOGAN</option>
+            <option value="cgan">cGAN Enhanced</option>
+            <option value="multimodal">Multi-modal Fusion</option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-nm">GAN Augmentation</div>
+            <div class="setting-desc">Generate synthetic samples to improve detection of rare families.</div>
+          </div>
+          <label class="tgl-wrap"><input type="checkbox" checked id="set-gan"><span class="toggle-switch"></span></label>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-nm">Continual Learning</div>
+            <div class="setting-desc">EWC-based incremental updates so the model improves over time.</div>
+          </div>
+          <label class="tgl-wrap"><input type="checkbox" id="set-continual"><span class="toggle-switch"></span></label>
+        </div>
+      </div>
+
+      <div class="settings-card">
+        <div class="settings-card-title">Interface Preferences</div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-nm">Animation Intensity</div>
+            <div class="setting-desc">Reduce or disable animations for better performance.</div>
+          </div>
+          <select class="setting-sel"><option>Full</option><option>Reduced</option><option>None</option></select>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-nm">Auto-save Results</div>
+            <div class="setting-desc">Automatically save every scan to local history.</div>
+          </div>
+          <label class="tgl-wrap"><input type="checkbox" checked><span class="toggle-switch"></span></label>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+</main>
+
+<!-- Loading overlay -->
+<div class="loading-overlay hidden" id="loading-overlay">
+  <div class="loading-dialog">
+    <div class="loading-spinner">
+      <svg viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" fill="none" stroke="#4f8ef7" stroke-width="3" stroke-dasharray="90 35" class="spin-anim"/>
+      </svg>
+    </div>
+    <div class="loading-title">Scanning file…</div>
+    <div class="loading-step-txt" id="loading-steps">Initializing…</div>
+    <div class="loading-bar-bg"><div class="loading-bar-fill" id="loading-bar"></div></div>
+    <div class="loading-note">Calling XGBoost backend…</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
